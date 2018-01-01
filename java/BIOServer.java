@@ -9,14 +9,12 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.channels.Channel;
-import java.nio.channels.spi.SelectorProvider;
 
 /**
  * Created by zsw on 2017/9/28.
  *
  */
-public class BIO2 {
+public class BIOServer {
     private Socket socketServer;
     private Socket socketClient;
     private Socket socketClient2;
@@ -37,7 +35,7 @@ public class BIO2 {
     private OutputStream cout2;
 
 
-    public BIO2(){
+    public BIOServer(){
         this.host = "192.168.31.101";
         this.port = 12345;
         this.hostClient = "192.168.31.31";
@@ -49,7 +47,7 @@ public class BIO2 {
     public  void runServer(){
         socketServer = null;
         socketClient = null;
-        SelectorProvider
+
         try{
             ServerSocket ss = new ServerSocket(port);
             System.out.println("sever started port:" + port);
@@ -141,7 +139,7 @@ public class BIO2 {
             if (fake){
                 cout.write('p');
                 byte[] salt = {buf[9], buf[10], buf[11], buf[12]};
-                byte[] digest = MD5Digest.encode("shenjianshou".getBytes("UTF-8"), "mnbvcxz@123".getBytes("UTF-8"), salt);
+                byte[] digest = MD5Digest.encode("username".getBytes("UTF-8"), "password".getBytes("UTF-8"), salt);
                 int val = 4 + digest.length + 1;
                 cout.write((byte)(val >>> 24));
                 cout.write((byte)(val >>> 16));
@@ -178,7 +176,7 @@ public class BIO2 {
 
 
     public static void main(String[] args){
-        BIO2 server = new BIO2();
+        BIOServer server = new BIOServer();
         server.runServer();
 
     }
